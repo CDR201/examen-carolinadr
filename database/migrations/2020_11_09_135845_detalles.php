@@ -15,13 +15,13 @@ class Detalles extends Migration
     {
         Schema::create('detalles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('clientes_id')->unsigned();
+            $table->integer('facturas_id')->unsigned();
             $table->integer('productos_id')->unsigned();
             $table->integer('cantidad')->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('clientes_id')->references('id')->on('clientes');
+            $table->foreign('facturas_id')->references('id')->on('facturas');
             $table->foreign('productos_id')->references('id')->on('productos');
         });
     }

@@ -1,19 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\productos;
+use App\Http\Requests\Rpeoductos as RpeoductosRequests;
 
 use Illuminate\Http\Request;
 
-class facturas extends Controller
+class CDRproductos extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected $Productos;
+    public function __construct (productos $Productos){
+        $this->Productos = $Productos;
+    }
     public function index()
     {
-        //
+        $Productos = productos::all();
+        return response()->json(['porductos'=>$Productos]);
     }
 
     /**
@@ -32,9 +39,10 @@ class facturas extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RpeoductosRequests $request)
     {
-        //
+        $Productos = $this->Productos->create($request->all());
+    return response()->json($Productos);
     }
 
     /**
@@ -45,7 +53,8 @@ class facturas extends Controller
      */
     public function show($id)
     {
-        //
+        $Productos = productos::find($id);
+      return $Productos;
     }
 
     /**
@@ -66,9 +75,10 @@ class facturas extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RpeoductosRequests $request, productos $Productos)
     {
-        //
+        $Productos->update($request->all());
+     return response()->json('ha sido modificado con exito'); 
     }
 
     /**
@@ -77,8 +87,9 @@ class facturas extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(productos $Productos)
     {
-        //
+        $Productos->delete();
+        return response()->json('el registro fue eliminado');
     }
 }

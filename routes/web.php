@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group (['prefix' => 'api'], function(){
+    Route::apiResource('clientes','CDRclientes');
+    Route::apiResource('facturas','CDRfacturas');
+    Route::apiResource('productos','CDRproductos');
+    Route::apiResource('detalles','CDRdetalles');
+});
+

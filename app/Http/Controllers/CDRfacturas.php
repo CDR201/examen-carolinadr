@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\facturas;
+use App\Http\Requests\Rfacturas as RfacturasRequests;
 
-class clientes extends Controller
+class CDRfacturas extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected $Facturas;
+    public function __construct (facturas $Facturas){
+        $this->Facturas = $Facturas;
+    }
     public function index()
     {
-        //
+        $Facturas = facturas::all();
+        return response()->json(['facturas'=>$Facturas]);
     }
 
     /**
@@ -32,9 +39,10 @@ class clientes extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RfacturasRequests $request)
     {
-        //
+        $Facturas = $this->Facturas->create($request->all());
+        return response()->json($Facturas);
     }
 
     /**
@@ -56,7 +64,8 @@ class clientes extends Controller
      */
     public function edit($id)
     {
-        //
+        $Facturas = facturas::find($id);
+      return $Facturas;
     }
 
     /**
@@ -66,9 +75,10 @@ class clientes extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RfacturasRequests $request, facturas $Facturas)
     {
-        //
+        $Facturas->update($request->all());
+     return response()->json('ha sido modificado con exito'); 
     }
 
     /**
@@ -77,8 +87,9 @@ class clientes extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(facturas $Facturas)
     {
-        //
+        $Facturas->delete();
+        return response()->json('el registro fue eliminado');
     }
 }

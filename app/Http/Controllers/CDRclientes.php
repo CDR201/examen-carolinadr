@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
-class detalles extends Controller
+use Illuminate\Http\Request;
+use App\clientes;
+use App\Http\Requests\Rclientes as RclientesRequests;
+
+
+class CDRclientes extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected $Clientes;
+    public function __construct (clientes $Clientes){
+        $this->Clientes = $Clientes;
+    }
     public function index()
     {
-        //
+
+        $Clientes = clientes::all();
+        return response()->json(['clientes'=>$Clientes]);
     }
 
     /**
@@ -32,9 +42,10 @@ class detalles extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RclientesRequests $request)
     {
-        //
+        $Clientes = $this->Clientes->create($request->all());
+    return response()->json($Clientes);
     }
 
     /**
@@ -45,7 +56,8 @@ class detalles extends Controller
      */
     public function show($id)
     {
-        //
+        $Clientes = clientes::find($id);
+      return $Clientes;
     }
 
     /**
@@ -66,9 +78,10 @@ class detalles extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RclientesRequests $request, clientes $Clientes)
     {
-        //
+        $Clientes->update($request->all());
+     return response()->json('ha sido modificado con exito'); 
     }
 
     /**
@@ -77,8 +90,9 @@ class detalles extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(clientes $Clientes)
     {
-        //
+        $Clientes->delete();
+    return response()->json('el registro fue eliminado');
     }
 }

@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\detalles;
+use App\Http\Requests\Rdetalles as RdetallesRequests;
 
-class productos extends Controller
+class CDRdetalles extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected $Detalles;
+    public function __construct (detalles $Detalles){
+        $this->Detalles = $Detalles;
+    }
     public function index()
     {
-        //
+        $Detalles = detalles::all();
+        return response()->json(['detalles'=>$Detalles]);
     }
 
     /**
@@ -32,9 +39,10 @@ class productos extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RdetallesRequests $request)
     {
-        //
+        $Detalles = $this->Detalles->create($request->all());
+    return response()->json($Detalles);
     }
 
     /**
@@ -45,7 +53,8 @@ class productos extends Controller
      */
     public function show($id)
     {
-        //
+        $Detalles = detalles::find($id);
+      return $Detalles;
     }
 
     /**
@@ -66,9 +75,10 @@ class productos extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RdetallesRequests $request, detalles $Detalles)
     {
-        //
+        $Detalles->update($request->all());
+        return response()->json('ha sido modificado con exito'); 
     }
 
     /**
@@ -77,8 +87,8 @@ class productos extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(detalles $Detalles)
     {
-        //
+        return response()->json('el registro fue eliminado');
     }
 }
